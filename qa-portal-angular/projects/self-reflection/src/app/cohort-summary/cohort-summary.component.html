@@ -1,0 +1,25 @@
+<div class="qa-app-title">
+  Cohort Average Ratings Summary
+</div>
+
+<div style="display: flex; justify-content: center; margin-top: 20px">
+  <mat-spinner [diameter]="70" *ngIf="loadingData"></mat-spinner>
+</div>
+
+<div *ngIf="!loadingData">
+  <h2 style="color: #0060B9;">
+    Ratings by Cohort Table
+  </h2>
+
+  <div>
+    <app-cohort-table (shownCohortsChange)="cohortsToShow($event)" [cohortSummaryData]="(cohortSummary$ | async)"></app-cohort-table>
+  </div>
+
+  <h2 style="color: #0060B9; margin-top: 20px;">
+    Ratings by Cohort Chart
+  </h2>
+
+  <div>
+    <app-cohort-chart [cohortsForGraph]="cohortsForGraph"></app-cohort-chart>
+  </div>
+</div>

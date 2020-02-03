@@ -1,0 +1,46 @@
+<mat-toolbar>
+  <mat-toolbar-row class="mat-elevation-z2">
+    <!-- LEFT ALIGN-->
+    <div class="content-left">
+      <a class="logo" [routerLink]="['/']" matRipple>
+        <mat-icon svgIcon="qa-logo"></mat-icon>
+      </a>
+      <div class="header-links">
+          <app-header-link [matTooltip]="QaHelpService.tooltipMaker(portalApp?.portalApplication?.name)" *ngFor="let portalApp of (appService.portalApplications$ | async)" [portalApplicationProjects]="portalApp">
+              {{portalApp?.portalApplication?.name || 'Unknown Department'}}
+            </app-header-link>
+        </div>
+      </div>
+
+    <!-- RIGHT ALIGN -->
+    <div class="content-right">
+
+      <!-- TODO: MOVE THIS! -->
+      <!-- <span class="portal-buttons" *ngFor="let deptApps of portalApplications">
+        <button mat-flat-button [mat-menu-trigger-for]="sub_menu">
+          {{deptApps.department.name}}
+        </button>
+        <mat-menu #sub_menu="matMenu">
+          <ng-container *ngFor="let appl of deptApps.applications">
+            <a routerLink="{{appl.url}}" mat-menu-item> {{appl.name}} </a>
+          </ng-container>
+        </mat-menu>
+      </span> -->
+      <!-- TODO END -->
+
+      <button isIconButton="true" matTooltip="Account Menu" class="user-button" mat-flat-button color="primary"
+        [mat-menu-trigger-for]="acct_menu">
+        {{displayName}}
+        <mat-icon>
+          perm_identity
+        </mat-icon>
+      </button>
+      <mat-menu #acct_menu="matMenu">
+        <button (click)="logout()" mat-menu-item>
+          Logout
+        </button>
+      </mat-menu>
+
+    </div>
+  </mat-toolbar-row>
+</mat-toolbar>

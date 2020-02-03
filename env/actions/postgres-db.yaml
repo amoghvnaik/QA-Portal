@@ -1,0 +1,4 @@
+FROM postgres:11
+
+COPY postgres-init-schema.sh /docker-entrypoint-initdb.d/
+

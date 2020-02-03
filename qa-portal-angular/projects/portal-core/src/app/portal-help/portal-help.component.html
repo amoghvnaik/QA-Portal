@@ -1,0 +1,8 @@
+<div class="help-bar" *ngIf="userRole">
+  <mat-expansion-panel [expanded]="panelOpenState" class="mat-elevation-z2">
+  <mat-expansion-panel-header>
+      <mat-panel-title>Help</mat-panel-title>
+    </mat-expansion-panel-header>
+    <app-portal-help-content></app-portal-help-content>
+  </mat-expansion-panel>
+</div>

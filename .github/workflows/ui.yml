@@ -1,0 +1,32 @@
+name: QA Portal Angular
+
+on:
+  push:
+    branches: 
+      - 'feature/**'
+
+jobs:
+  build:
+
+    runs-on: ubuntu-18.04
+
+    steps:
+      - uses: actions/checkout@v1
+      - name: Node
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12.8
+      - name: Install Chromium
+        run: sudo apt update && sudo apt install chromium-browser -y
+      - name: Install dependencies
+        working-directory: ./qa-portal-angular
+        run: npm install
+      - name: Test Common Project
+        working-directory: ./qa-portal-angular
+        run: npm run test -- --project qa-common --browsers=ChromiumCI --watch=false --code-coverage
+      - name: Test Forms Project
+        working-directory: ./qa-portal-angular
+        run: npm run test -- --project qa-forms --browsers=ChromiumCI --watch=false --code-coverage
+      - name: Build
+        working-directory: ./qa-portal-angular
+        run: npm run build -- --prod

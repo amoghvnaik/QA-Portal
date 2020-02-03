@@ -1,0 +1,89 @@
+.row{
+    display: flex;
+    flex-direction: row;
+    height: 100%;
+}
+
+.col{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.col-no-fit{
+    display: flex;
+    flex-direction: column;
+}
+
+.col-3{
+    display: flex;
+    flex-direction: column;
+    width: 33.333333%;
+}
+
+.block-container{
+    width: 100%;
+    align-items: center;
+}
+
+.block-item{
+    color: white;
+    text-shadow: 1px 2px 3px black;
+    margin: 20px;
+    padding: 20px;
+    text-align: center;
+    align-self: center;
+    align-content: center;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    border-radius: 10px;
+    background-color: rgba(0, 0, 0, 0.80);
+    max-width: 800px;
+}
+
+.block-title{
+    color: white !important;
+    font-size: calc(20px + .8vw);
+}
+
+.sub-block-item{
+    align-self: center;
+    text-align: center;
+    align-content: center;
+    align-items: center;
+    border-radius: 3px;
+    padding: 10px;
+    height: calc(60px + 2vw);
+}
+
+.sub-block-title{
+    font-size: calc(6px + .8vw);
+    vertical-align: middle;
+    margin: auto;
+}
+
+.sub-block-text{
+    max-width: 100px;
+    text-align: center;
+}
+
+.block-button{
+    width: calc(90px + .6vw);
+    align-self: center;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    font-size: calc(8px + .5vw);
+}
+
+$bg-imgs:   url("/assets/images/QA-bg-img1.jpg"),
+            url("/assets/images/QA-bg-img2.jpg"),
+            url("/assets/images/QA-bg-img3.jpg"),
+            url("/assets/images/QA-bg-img4.jpg");
+
+@each $url in $bg-imgs {
+    $i: index($list: $bg-imgs, $value: $url);
+    .bg-img-#{$i} {
+        background-image: $url;
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position-x: right;    
+    }
+}

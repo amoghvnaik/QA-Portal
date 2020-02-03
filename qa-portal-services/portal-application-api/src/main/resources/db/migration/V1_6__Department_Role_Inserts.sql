@@ -1,0 +1,9 @@
+INSERT INTO training.dept_role (id, dept_id, role_id) VALUES (1, 1, 1);
+INSERT INTO training.dept_role (id, dept_id, role_id) VALUES (2, 1, 2);
+INSERT INTO training.dept_role (id, dept_id, role_id) VALUES (3, 1, 3);
+INSERT INTO training.dept_role (id, dept_id, role_id) VALUES (7, 3, 7);
+INSERT INTO training.dept_role (id, dept_id, role_id) VALUES (9, 3, 9);
+INSERT INTO training.dept_role (id, dept_id, role_id) VALUES (6, 2, 6);
+INSERT INTO training.dept_role (id, dept_id, role_id) VALUES (8, 3, 8);
+INSERT INTO training.dept_role (id, dept_id, role_id) VALUES (4, 2, 4);
+INSERT INTO training.dept_role (id, dept_id, role_id) VALUES (5, 2, 5);

@@ -1,0 +1,41 @@
+.title {
+  margin-top: 1em;
+  margin-bottom: 1em;
+  /*font-weight: normal;*/
+  /*color: grey;*/
+  text-align: center;
+  background-color: #eeeeee;
+  color: #004050;
+}
+
+.trainer-textareas>div {
+  margin-bottom: 1.5em;
+}
+
+.trainer-textareas .heading {
+  background-color: #eeeeee;
+  color: #004050;
+  font-size: 16px;
+}
+
+.submit-button-wrapper {
+  margin-top: 15px;
+  display: flex;
+  justify-content: center;
+}
+
+.trainer-response-label {
+  color:rgba(22, 22, 22, 0.54);
+  font-family:Roboto;
+  font-size:12px;
+  font-style:normal;
+  font-variant-caps:normal;
+  font-variant-east-asian:normal;
+  font-variant-ligatures:normal;
+  font-variant-numeric:normal;
+  font-weight:500;
+  padding-bottom: 10px;
+}
+
+.trainer-response-input {
+}

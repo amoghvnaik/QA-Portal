@@ -1,0 +1,22 @@
+[{	"Help": "Training at the academy",
+		"Tag": "Training"
+}, {
+		"Help": "Home Page",
+		"Tag": "Home"
+}, {
+		"Help": "View and edit your current evaluations of your courses at the academy, providing feedback to your trainer to help them improve in the future.",
+		"Tag": "Trainee Evaluation History"
+}, {
+		"Help": "Update and view your current CV which should include everything learnt at the academy",
+		"Tag": "Trainee Current CV"
+}, {
+		"Help": "For viewing the history of your reflections at the academy",
+		"Tag": "Trainee Reflections"
+}, {
+		"Help": "A form to reflect over your progress at the academy at the current date",
+		"Tag": "Current Trainee Reflection"
+}, {
+		"Help": "",
+		"Tag": ""
+}]
+

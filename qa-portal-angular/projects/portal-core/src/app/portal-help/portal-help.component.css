@@ -1,0 +1,29 @@
+.help-bar mat-expansion-panel{
+    overflow: hidden;
+    background-color: #eeeeee;
+    position: fixed;
+    bottom: 0%; 
+    right: 0%;
+    z-index: 20;
+    opacity: 1;
+    width: 20%;
+    white-space: pre-line;
+  }
+
+  .help-bar mat-expansion-panel-header {
+    margin-top: 0px !important;
+  }
+
+  .help-bar mat-panel-title {
+    float: left;
+    display: block;
+    color: #004050;
+    text-align: center;
+    text-decoration: none;
+    padding: 0% 20%;
+    padding-bottom: 5%;
+  }
+
+  .main {
+    margin-bottom: 10%; 
+  }

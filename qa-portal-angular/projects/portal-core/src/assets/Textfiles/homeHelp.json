@@ -1,0 +1,26 @@
+﻿[{	"Help": "Welcome to QA Portal! \n\n Kindly click any of the buttons displayed to navigate the portal",
+		"Tag": "/"
+}, {
+		"Help": "This is your home page.\n\nUse this as a starting area to navigate across the portal.\n\nUse the tabs on the top to navigate across different sections of the portal.",
+		"Tag": "/qa/portal/home"
+	}, {
+		"Help": "This is the training page to manage your current training at the academy.\n\n The training tab is split into 3 categories:\n\n � Feedback - For providing feedback about your course\n\n � CV Management - For managing your current CV and editing it\n\n � Evaluation - For evaluating your time at the academy \n\n Hover over each of the page tabs for more information",
+		"Tag": "/qa/portal/training"
+	}, {
+		"Help": "This is the history of your evaluations of your time at the academy.\n\n Click on any of the records on the table to open one of the course evaluation forms. \n\n Records have 5 fields: \n\n - Course - The name of the course which you were in, usually a different course each week. \n\n - Start - The start date of your course \n\n - End - The end date of your course \n\n - Course-ID - The unique identifier for the course \n\n - Status - The status of your evaluation of the course, if it says 'Awaiting Evaluation' then you should open it up and complete the evaluation form",
+		"Tag": "/qa/portal/training/feedback/trainee/evaluation/history"
+	}, {
+		"Help": "This is your current CV, you should keep it up to date to ensure that it is the most accurate possible and displays most proficient skills.\n\n Sections: \n\n Personal Profile - An overview of yourself, this is where you can explain how and why you decided to go you decided to take this career path, your skills, what influences you etc. \n\n Hobbies and Interests - To state your hobbies and interests, keep it interesting, this is where you can come of as unique. \n\n Qualifications - Where you state your most up to date and highest qualifications \n\n Work Experience - State your latest amount of work experience. \n\n Skills - Please state your skills, both learnt at the academy as well as in your own time, ensure that you truly have a good amount of knowledge of what is put into skills as an employer may ask you a question based on a specific skill.",
+		"Tag": "/qa/portal/training/cv/trainee/current"
+	}, {
+		"Help": "Here are your current saved reflections \n\n If it is shown to be empty currently then it means you haven't made one yet, which can be made in the 'Current Trainee Reflection' page.",
+		"Tag": "/qa/portal/training/self-reflection/trainee/history"
+	}, {
+		"Help": "Your current in progress reflection form. \n\n Press save to save your reflection, your form should be viewable and availiable on the reflection history page.",
+		"Tag": "/qa/portal/training/self-reflection/trainee/"
+	}, {
+		"Help": "Your current in progress reflection form. \n\n Press save to save your reflection, your form should be viewable and availiable on the reflection history page.",
+		"Tag": "/qa/portal/training/self-reflection/trainee/new"
+
+}]
+

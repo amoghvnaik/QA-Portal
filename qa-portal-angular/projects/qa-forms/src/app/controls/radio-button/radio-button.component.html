@@ -1,0 +1,27 @@
+<div id="radioButtonLayout">
+    <div class="qa-radio-btn-grp-label">
+      {{question.body}}
+    </div>
+
+    <mat-radio-group class="qa-radio-btn-grp">
+      <div class="qa-radio-btn-layout-horizontal">
+        <mat-radio-button #matRadioButton color="primary" class="qa-response-button"
+                          *ngFor="let options of question.selectionOptionsList"
+                          (change)="setRadioResponse(matRadioButton.value)"
+                          [disabled]="isDisabled"
+                          [checked]="matchesValue(options)"
+                          [value]="options">{{options}}</mat-radio-button>
+      </div>
+    </mat-radio-group>
+
+  <div></div>
+
+  <div id="commentsBox" *ngIf="question.hasComment">
+      <mat-form-field appearance="outline" class="textarea-response">
+        <mat-label>{{question.commentLabel}}</mat-label>
+        <textarea matInput [disabled]="isDisabled" [ngModel]="questionResponse?.comment?.content"
+          (ngModelChange)="setComment($event)"></textarea>
+      </mat-form-field>
+    </div>
+</div>
+

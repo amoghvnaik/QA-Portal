@@ -1,0 +1,32 @@
+<div id="checkboxLayout">
+
+  <div id="questionLayout">
+    <div class="qa-checkbox-grp-label">
+      {{question.body}}
+    </div>
+
+
+    <section role="grid" name="portal-applications" class="checkbox-grid-width">
+      <div class="app-card-container" *ngFor="let option of question.selectionOptionsList">
+        <mat-card class="checkbox-card">
+          <mat-grid-tile>
+          </mat-grid-tile>
+          <mat-card-content id="matCard">
+            <mat-checkbox id="checkbox" flex="auto" #matCheckBox class="checkbox-response" [value]="option" [disabled]="isDisabled"
+              [checked]="matchesValue(option, questionResponse.responseValues)" (change)="setCheckResponse($event)">
+              {{option}}
+            </mat-checkbox>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </section>
+  </div>
+
+  <div id="commentBox" *ngIf="question.hasComment">
+    <mat-form-field appearance="outline" class="textarea-response">
+      <mat-label>Comments</mat-label>
+      <textarea matInput [disabled]="isDisabled" [ngModel]="questionResponse?.comment?.content"
+        (ngModelChange)="setComment($event)" [placeholder]="question.commentLabel"></textarea>
+    </mat-form-field>
+  </div>
+</div>

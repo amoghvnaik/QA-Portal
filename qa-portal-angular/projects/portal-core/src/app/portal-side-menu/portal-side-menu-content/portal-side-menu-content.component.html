@@ -1,0 +1,39 @@
+<div class="side-menu-panel" style="width: 300px; overflow-x: hidden;">
+  <div class="section" *ngIf="!(appService.currentApplication$ | async)?.portalProjects">
+    <div class="section-title light">
+      No menu items found
+    </div>
+  </div>
+
+  <div class="section" *ngFor="let portalProject of (appService.currentApplication$ | async)?.portalProjects">
+    <div class="section-title">
+      {{ portalProject.name }}
+    </div>
+
+    <div class="section-body">
+      <div *ngFor="let projectPage of portalProject.projectPages">
+        <div *ngIf="projectPage.displayOnMenu">
+          <button mat-button [routerLink]="projectPage.url"
+                  routerLinkActive="mat-accent"
+                  [routerLinkActiveOptions]="{exact: false}" class="menu-item"
+                  [matTooltip]="!sideMenuService.sideMenuOpen ? projectPage.name : ''"
+                  matTooltipPosition="after"
+                  matTooltipClass="menu-item-tooltip"
+                  >
+
+            <div class="menu-item-content" [matTooltip]="sideMenuService.sideMenuOpen ? QaHelpService.tooltipMaker(projectPage.name) : ''">
+              <div class="menu-item-icon">
+                <mat-icon [svgIcon]="projectPage.icon">{{projectPage.icon || 'bookmark'}}</mat-icon>
+              </div>
+              <div style="width: 100%; text-overflow:ellipsis; overflow: hidden; text-align: left; margin: auto 0;">
+            <span>
+              {{projectPage.name}}
+            </span>
+              </div>
+            </div>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
