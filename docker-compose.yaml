@@ -8,9 +8,6 @@ services:
       POSTGRES_PASSWORD: postgres
     volumes:
       - ./postgres_data:/var/lib/postgresql/data
-    ports:
-      - target: 5432
-        published: 5432
 
   adminer:
     image: adminer
@@ -22,14 +19,7 @@ services:
     image: keycloak
     container_name: keycloak
     build: ./qa-portal-infra
-    deploy:
-      replicas: 3
     depends_on:
       - database
-    environment:
-      - DB_VENDOR=postgres
-      - DB_ADDR=database
-      - DB_PORT=5432
-      - DB_DATABASE=keycloak
-      - DB_USER=postgres
-      - DB_PASSWORD=postgres
+    ports:
+      - 8070:8080
