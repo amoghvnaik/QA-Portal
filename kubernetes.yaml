@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: nginx
-        image: deployment:5000/core:build-{{BUILD}}
+        image: deployment:5000/portal-core:build-{{BUILD}}
         ports:
         - containerPort: 80
 ---
