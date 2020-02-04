@@ -5,7 +5,7 @@ pipeline{
 		stage('--building--'){
 			steps{
 				sh '''ssh deployment
-				      cd QA-Portal/qa-portal-services
+				      cd QA-Portal/qa-portal-services/
                                       git pull
 				      mvn clean install
 				      docker-compose build
