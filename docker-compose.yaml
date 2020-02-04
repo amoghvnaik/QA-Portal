@@ -62,3 +62,43 @@ services:
     depends_on: 
       - mongo 
       - postgres
+  form-api:
+    image: deployment:5000/form-api:build-${BUILD_NUMBER}
+    build:
+      context: ./qa-portal-services
+      args: 
+        - PROJECT=form-api
+    depends_on: 
+      - postgres
+  self-reflection-api:
+    image: deployment:5000/self-reflection-api:build-${BUILD_NUMBER}
+    build:
+      context: ./qa-portal-services
+      args: 
+        - PROJECT=self-reflection-api
+    depends_on: 
+      - postgres
+  feedback-api:
+    image: deployment:5000/feedback-api:build-${BUILD_NUMBER}
+    build:
+      context: ./qa-portal-services
+      args: 
+        - PROJECT=feedback-api
+    depends_on: 
+      - postgres
+  cohort-api:
+    image: deployment:5000/cohort-api:build-${BUILD_NUMBER}
+    build:
+      context: ./qa-portal-services
+      args: 
+        - PROJECT=cohort-api
+    depends_on: 
+      - postgres
+  portal-application-api:
+    image: deployment:5000/portal-application-api:build-${BUILD_NUMBER}
+    build:
+      context: ./qa-portal-services
+      args: 
+        - PROJECT=portal-application-api
+    depends_on: 
+      - postgres
