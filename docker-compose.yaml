@@ -53,7 +53,8 @@ services:
         #    ports:
         #      - target: 80
         #        published: 80
-  cv-api: 
+  cv-api:
+    image: deployment:5000/cv-api:build-${BUILD_NUMBER}
     build:
       context: ./qa-portal-services
       args: 
