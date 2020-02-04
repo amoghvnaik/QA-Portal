@@ -2,7 +2,7 @@ FROM maven:3.6.1-jdk-8-slim AS build
 ARG PROJECT
 WORKDIR /build
 COPY . .
-RUN mvn clean install --projects api-common,${PROJECT}
+RUN mvn clean install -DskipTests --projects api-common,${PROJECT}
 
 FROM openjdk:8-alpine
 ARG PROJECT

@@ -60,4 +60,4 @@ services:
         - PROJECT=cv-api
     depends_on: 
       - mongo 
-      - postgres 
+      - postgres
