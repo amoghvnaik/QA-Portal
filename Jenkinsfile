@@ -9,6 +9,7 @@ pipeline{
                                       git pull
 				      git checkout week12-week3-frontend
 				      mvn clean install
+				      cd ..
 				      docker-compose build
 				      docker-compose push
                                       kubectl apply -f kubectl.yaml
