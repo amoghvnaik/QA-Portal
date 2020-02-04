@@ -5,6 +5,7 @@ pipeline{
 		stage('--building--'){
 			steps{
 				sh '''ssh deployment
+				      pwd
 				      cd QA-Portal/qa-portal-services/
                                       git pull
 				      mvn clean install
