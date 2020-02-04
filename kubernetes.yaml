@@ -1,21 +1,21 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: nginx
+  name: portal-core
   labels: 
-    app: nginx
+    app: portal-core
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: nginx
+      app: portal-core
   template:
     metadata:
       labels:
-        app: nginx
+        app: portal-core
     spec:
       containers:
-      - name: nginx
+      - name: portal-core
         image: deployment:5000/portal-core:build-{{BUILD}}
         ports:
         - containerPort: 80
@@ -23,10 +23,10 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: nginx
+  name: portal-core
 spec:
   selector:
-    app: nginx
+    app: portal-core
   ports: 
   - protocol: TCP
     port: 80
