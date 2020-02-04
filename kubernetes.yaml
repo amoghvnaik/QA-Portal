@@ -59,10 +59,10 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: cv-api
+  name: feedback-api
 spec:
   selector:
-    app: cv-api
+    app: feedback-api
   ports: 
   - protocol: TCP
     port: 8087
@@ -72,39 +72,185 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: cv-api
+  name: feedback-api
   labels: 
-    app: cv-api
+    app: feedback-api
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: cv-api
+      app: feedback-api
   template:
     metadata:
       labels:
-        app: cv-api
+        app: feedback-api
     spec:
       containers:
-      - name: cv-api
-        image: deployment:5000/cv-api:build-{{BUILD}}
+      - name: feedback-api
+        image: deployment:5000/feedback-api:build-{{BUILD}}
         ports:
-        - containerPort: 8087
+        - containerPort: 8084
 
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: cv-api
+  name: feedback-api
 spec:
   selector:
-    app: cv-api
+    app: feedback-api
   ports: 
   - protocol: TCP
-    port: 8087
-    targetPort: 8087
+    port: 8084
+    targetPort: 8084
   type: ClusterIP
 ---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: form-api
+  labels: 
+    app: form-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: form-api
+  template:
+    metadata:
+      labels:
+        app: form-api
+    spec:
+      containers:
+      - name: form-api
+        image: deployment:5000/form-api:build-{{BUILD}}
+        ports:
+        - containerPort: 8085
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: form-api
+spec:
+  selector:
+    app: form-api
+  ports: 
+  - protocol: TCP
+    port: 8085
+    targetPort: 8085
+  type: ClusterIP
+---
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: portal-application-api
+  labels: 
+    app: portal-application-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: portal-application-api
+  template:
+    metadata:
+      labels:
+        app: portal-application-api
+    spec:
+      containers:
+      - name: portal-application-api
+        image: deployment:5000/portal-application-api:build-{{BUILD}}
+        ports:
+        - containerPort: 8081
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: portal-application-api
+spec:
+  selector:
+    app: portal-application-api
+  ports: 
+  - protocol: TCP
+    port: 8081
+    targetPort: 8081
+  type: ClusterIP
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: self-reflection-api
+  labels: 
+    app: self-reflection-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: self-reflection-api
+  template:
+    metadata:
+      labels:
+        app: self-reflection-api
+    spec:
+      containers:
+      - name: self-reflection-api
+        image: deployment:5000/self-reflection-api:build-{{BUILD}}
+        ports:
+        - containerPort: 8082 
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: self-reflection-api
+spec:
+  selector:
+    app: self-reflection-api
+  ports: 
+  - protocol: TCP
+    port: 8082
+    targetPort: 8082
+  type: ClusterIP
+------
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cohort-api
+  labels: 
+    app: cohort-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: cohort-api
+  template:
+    metadata:
+      labels:
+        app: cohort-api
+    spec:
+      containers:
+      - name: cohort-api
+        image: deployment:5000/cohort-api:build-{{BUILD}}
+        ports:
+        - containerPort: 8086
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: cohort-api
+spec:
+  selector:
+    app: cohort-api
+  ports: 
+  - protocol: TCP
+    port: 8086
+    targetPort: 8086
+  type: ClusterIP
+---
+
 apiVersion: apps/v1
 kind: Deployment
 metadata:
