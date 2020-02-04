@@ -1,40 +1,63 @@
 version: '3.7'
+volumes:
+ db-data:
+   driver: local
+ mongo-volume:
+   driver: local
+
 services:
-  keycloak:
-    image: jboss/keycloak:latest
-    environment:
-      - KEYCLOAK_USER=admin
-      - KEYCLOAK_PASSWORD=admin
-      - KEYCLOAK_IMPORT=/tmp/realm.json
-      - DB_DATABASE=qa-portal
-      - DB_USER=postgres
-      - DB_PASSWORD=postgres
-      - PROXY_ADDRESS_FORWARDING=true
-    volumes:
-      - type: bind
-        source: ./qa-portal-infra/keycloak/qa-portal-realm.json
-        target: /tmp/realm.json
-    depends_on:
-      - postgres
+        #  keycloak:
+        #    image: jboss/keycloak:latest
+        #    environment:
+        #      - KEYCLOAK_USER=admin
+        #      - KEYCLOAK_PASSWORD=admin
+        #      - KEYCLOAK_IMPORT=/tmp/realm.json
+        #      - DB_DATABASE=qa-portal
+        #      - DB_USER=postgres
+        #      - DB_PASSWORD=postgres
+        #      - PROXY_ADDRESS_FORWARDING=true
+        #    volumes:
+        #      - type: bind
+        #        source: ./qa-portal-infra/keycloak/qa-portal-realm.json
+        #        target: /tmp/realm.json
+        #    depends_on:
+        #      - postgres
   postgres:
     image: postgres
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
       - POSTGRES_DB=qa-portal
-  portal-core:
-    image: amoghvnaik/portal-core:latest
-    build: ./qa-portal-angular
-    depends_on:
-      - keycloak
-      - core-api
-      - user-api
-      - self-reflection-api
-      - course-api
-      - cv-api
-      - feedback-api
-      - question-api
+    volumes: 
+      - db-data:/var/lib/postgresql/data
     ports:
-      - target: 80
-        published: 80
-
+      - 5432:5432
+  mongo:
+    image: mongo
+    ports:
+      - "27017:27017"
+    volumes:
+    - ./mongo-volume:/data/db
+      #  portal-core:
+      #    image: amoghvnaik/portal-core:latest
+      #    build: ./qa-portal-angular
+    #    depends_on:
+            #      - keycloak
+            #      - core-api
+            #      - user-api
+            #      - self-reflection-api
+            #      - course-api
+            #      - cv-api
+        #      - feedback-api
+        #      - question-api
+        #    ports:
+        #      - target: 80
+        #        published: 80
+  cv-api: 
+    build:
+      context: ./qa-portal-services
+      args: 
+        - PROJECT=cv-api
+    depends_on: 
+      - mongo 
+      - postgres 
