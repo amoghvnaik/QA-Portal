@@ -4,8 +4,7 @@ pipeline{
         stages{
 		stage('--building--'){
 			steps{
-				sh '''cd
-				      ssh deployment
+				sh '''ssh deployment << EOF
 				      pwd
 				      cd QA-Portal/qa-portal-services/
                                       git pull
@@ -13,6 +12,7 @@ pipeline{
 				      docker-compose build
 				      docker-compose push
                                       kubectl apply -f kubectl.yaml
+				      EOF
 				      '''
 			}
 		}
