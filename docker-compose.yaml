@@ -1,6 +1,15 @@
 version: "3.7"
 
 services:
+  nginx:
+    image: nginx
+    ports:
+      - 80:80
+    volumes:
+      - type: bind
+        source: ./nginx/nginx.conf
+        target: /etc/nginx/nginx.conf
+
   frontend:
     image: vieran:latest
     build: ./qa-portal-angular
@@ -8,7 +17,7 @@ services:
       - keycloak
     ports:
       - target: 80
-        published: 80
+        published: 5000
   database:
     image: postgres
     restart: always
