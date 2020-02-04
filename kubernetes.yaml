@@ -69,6 +69,55 @@ spec:
     targetPort: 8087
   type: ClusterIP
 ---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx
+spec:
+  selector:
+    app: nginx
+  ports: 
+  - protocol: TCP
+    port: 80
+    targetPort: 80
+  type: LoadBalancer
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cv-api
+  labels: 
+    app: cv-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: cv-api
+  template:
+    metadata:
+      labels:
+        app: cv-api
+    spec:
+      containers:
+      - name: cv-api
+        image: deployment:5000/cv-api:build-{{BUILD}}
+        ports:
+        - containerPort: 8087
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: cv-api
+spec:
+  selector:
+    app: cv-api
+  ports: 
+  - protocol: TCP
+    port: 8087
+    targetPort: 8087
+  type: ClusterIP
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
