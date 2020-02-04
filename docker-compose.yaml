@@ -1,0 +1,25 @@
+version: "3.7"
+
+services:
+  database:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - ./postgres_data:/var/lib/postgresql/data
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8090:8080
+
+  keycloak:
+    image: keycloak
+    container_name: keycloak
+    build: ./qa-portal-infra
+    depends_on:
+      - database
+    ports:
+      - 8070:8080
