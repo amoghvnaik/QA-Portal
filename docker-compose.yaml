@@ -39,7 +39,7 @@ services:
     depends_on:
       - database
     ports:
-      - 8070:8080
+      - 8080:8080
   
   feedback-api:
     image: feedback-1:latest
