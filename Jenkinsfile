@@ -12,7 +12,7 @@ pipeline{
 				      cd ..
 				      docker-compose build
 				      docker-compose push
-                                      kubectl apply -f kubectl.yaml
+                                      sed "s/{{BUILD}}/${BUILD_NUMBER}/g" ./kubernetes.yaml | kubectl apply -f -
 				      EOF
 				      '''
 			}
