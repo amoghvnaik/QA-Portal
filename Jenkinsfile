@@ -4,9 +4,10 @@ pipeline{
         stages{
 		stage('--building--'){
 			steps{
-				sh '''ssh deployment
+				sh '''cd
+				      ssh deployment
 				      pwd
-				      cd /home/jenkins/QA-Portal/qa-portal-services/
+				      cd QA-Portal/qa-portal-services/
                                       git pull
 				      mvn clean install
 				      docker-compose build
