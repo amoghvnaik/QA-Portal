@@ -1,6 +1,14 @@
 version: "3.7"
 
 services:
+  frontend:
+    image: vieran:latest
+    build: ./qa-portal-angular
+    depends_on:
+      - keycloak
+    ports:
+      - target: 80
+        published: 80
   database:
     image: postgres
     restart: always
