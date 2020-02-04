@@ -59,10 +59,10 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: feedback-api
+  name: cv-api
 spec:
   selector:
-    app: feedback-api
+    app: cv-api
   ports: 
   - protocol: TCP
     port: 8087
