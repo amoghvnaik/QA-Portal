@@ -5,6 +5,7 @@ pipeline{
 		stage('--building--'){
 			steps{
 				sh '''ssh deployment << EOF
+				      export BUILD_NUMBER=${BUILD_NUMBER}
 				      cd QA-Portal/qa-portal-services/
                                       git pull
 				      git checkout week12-week3-frontend
