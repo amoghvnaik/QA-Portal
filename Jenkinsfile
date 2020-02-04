@@ -14,7 +14,6 @@ pipeline{
 				      docker-compose build
 				      docker-compose push
                                       sed "s/{{BUILD}}/${BUILD_NUMBER}/g" ./kubernetes.yaml | kubectl apply -f -
-				      docker system prune
 				      '''
 			}
 		}
