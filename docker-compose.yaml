@@ -31,3 +31,15 @@ services:
       - database
     ports:
       - 8070:8080
+  
+  feedback-api:
+    image: feedback-1:latest
+    build: ./qa-portal-services/feedback-api
+    ports:
+      - 8084:8084
+  
+  self-reflection-api:
+    image: self-reflection
+    build: ./qa-portal-services/self-reflection-api
+    ports: 
+      - 8082:8082
