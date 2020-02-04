@@ -6,7 +6,7 @@ pipeline{
 			steps{
 				sh '''ssh deployment
 				      pwd
-				      cd ~/QA-Portal/qa-portal-services/
+				      cd /home/jenkins/QA-Portal/qa-portal-services/
                                       git pull
 				      mvn clean install
 				      docker-compose build
