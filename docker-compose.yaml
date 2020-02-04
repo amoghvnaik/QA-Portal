@@ -38,9 +38,9 @@ services:
       - "27017:27017"
     volumes:
     - ./mongo-volume:/data/db
-      #  portal-core:
-      #    image: amoghvnaik/portal-core:latest
-      #    build: ./qa-portal-angular
+  portal-core:
+    image: deployment:5000/portal-core:build-{BUILD_NUMBER}
+    build: ./qa-portal-angular
     #    depends_on:
             #      - keycloak
             #      - core-api
@@ -50,7 +50,7 @@ services:
             #      - cv-api
         #      - feedback-api
         #      - question-api
-        #    ports:
+           #   ports:
         #      - target: 80
         #        published: 80
   cv-api:
