@@ -6,6 +6,7 @@ pipeline{
                         steps{
                                 sh '''export build="${BUILD_NUMBER}"
 				      git checkout deploy-stack
+				      git pull
 				      docker system prune -af
 				      mvn clean install -DskipTests
 				      docker-compose up -d --build
@@ -19,6 +20,7 @@ pipeline{
                                 sh '''ssh assassin-ansible-deploy << EOF
 				      export build="${BUILD_NUMBER}"
 				      git checkout deploy-stack
+				      git pull
 				      docker system prune -f
 				      docker stack deploy --compose-file qa-portal/docker-compose.yaml qa-portal
 				      EOF

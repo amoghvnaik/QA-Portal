@@ -180,14 +180,19 @@
       name: docker
       state: started
 
-- name: "setup swarm"
-  hosts: swarm-master
+- name: "clone github repository"
+  hosts: all
   become: yes
   tasks:
   - name: "git clone"
     git:
       repo: "https://github.com/amoghvnaik/QA-Portal"
       dest: /home/jenkins/qa-portal
+
+- name: "setup swarm"
+  hosts: swarm-master
+  become: yes
+  tasks:
   - name: "initialise swarm"
     docker_swarm:
       state: present
