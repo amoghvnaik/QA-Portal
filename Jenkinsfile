@@ -9,7 +9,7 @@ pipeline{
 				      cd QA-Portal/qa-portal-services/
                                       git pull
 				      git checkout week12-week3-frontend
-				      mvn clean install
+				      mvn clean install -DskipTests
 				      cd ..
 				      docker-compose build
 				      docker-compose push
