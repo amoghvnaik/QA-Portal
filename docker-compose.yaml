@@ -27,7 +27,7 @@ services:
     container_name: keycloak
     build: ./qa-portal-infra
     depends_on:
-      - database
+      - postgres
     ports:
       - 8080:8080
   postgres:
