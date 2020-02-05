@@ -474,7 +474,7 @@ spec:
     spec:
       containers:
       - name: keycloak
-        image: deployment:5000/keycloak:build-{{BUILD}}
+        image: jboss/keycloak:6.0.1
         ports:
         - containerPort: 8080
         env:
