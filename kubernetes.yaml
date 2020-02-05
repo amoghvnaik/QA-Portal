@@ -320,3 +320,39 @@ spec:
     port: 27017
     targetPort: 27017
   type: ClusterIP
+  ---
+  apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: keycloak
+  labels: 
+    app: keycloak
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: keycloak
+  template:
+    metadata:
+      labels:
+        app: keycloak
+    spec:
+      containers:
+      - name: keycloak
+        image: keycloak
+        ports:
+        - containerPort: 8070
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: keycloak
+spec:
+  selector:
+    app: keycloak
+  ports: 
+  - protocol: TCP
+    port: 8070
+    targetPort: 8070
+  type: ClusterIP
+  
