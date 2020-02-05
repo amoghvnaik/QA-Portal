@@ -370,6 +370,9 @@ spec:
         image: postgres
         ports:
         - containerPort: 5432
+        env:
+        - name: postgresqlPassword
+          value: "postgres"
         #volumeMounts:
         #- mountPath: "var/lib/postgresql/data"
           #name: postgres
@@ -445,16 +448,16 @@ spec:
     targetPort: 27017
   type: ClusterIP
 ---
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: keycloak
-spec:
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: 8Gi
+#apiVersion: v1
+#kind: PersistentVolumeClaim
+#metadata:
+  #name: keycloak
+#spec:
+  #accessModes:
+    #- ReadWriteOnce
+  #resources:
+    #requests:
+      #storage: 8Gi
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -474,7 +477,7 @@ spec:
     spec:
       containers:
       - name: keycloak
-        image: jboss/keycloak:6.0.1
+        image: deployment:5000/keycloak:build-{{BUILD}}
         ports:
         - containerPort: 8080
         env:
@@ -490,14 +493,14 @@ spec:
           value: "postgres"
         - name: PROXY_ADDRESS_FORWARDING
           value: "true"
-        command: ["-Dkeycloak.migration.action=import", "-Dkeycloak.migration.provider=dir", "-Dkeycloak.migration.dir=/opt/jboss/exported_realms", "-Dkeycloak.migration.strategy=OVERWRITE_EXISTING"]
-        volumeMounts:
-        - mountPath: "/opt/jboss/exported_realms"
-          name: keycloak
-      volumes:
-      - name: keycloak
-        persistentVolumeClaim:   
-          claimName: keycloak
+        #command: ["-Dkeycloak.migration.action=import", "-Dkeycloak.migration.provider=dir", "-Dkeycloak.migration.dir=/opt/jboss/exported_realms", "-Dkeycloak.migration.strategy=OVERWRITE_EXISTING"]
+        #volumeMounts:
+        #- mountPath: "/opt/jboss/exported_realms"
+          #name: keycloak
+      #volumes:
+      #- name: keycloak
+        #persistentVolumeClaim:   
+          #claimName: keycloak
 ---
 apiVersion: v1
 kind: Service
