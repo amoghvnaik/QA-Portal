@@ -17,10 +17,23 @@ services:
       - form-api
       - cohort-api
       - portal-application-api
+      
   keycloak:
-    image: deployment:5000/keycloak:build-${BUILD_NUMBER}
-    build: ./qa-portal-infra
-
+    image: jboss/keycloak:6.0.1
+    depends_on:
+      - database
+    environment:
+      - KEYCLOAK_USER=admin
+      - KEYCLOAK_PASSWORD=admin
+      - DB_DATABASE=qa-portal
+      - DB_USER=postgres
+      - DB_PASSWORD=postgres
+      - PROXY_ADDRESS_FORWARDING=true
+    command: -Dkeycloak.migration.action=import -Dkeycloak.migration.provider=dir -Dkeycloak.migration.dir=/opt/jboss/exported_realms -Dkeycloak.migration.strategy=OVERWRITE_EXISTING
+    volumes:
+    - type: bind
+      source: ./qa-portal-infra/keycloak/exported_realms
+      target: /opt/jboss/exported_realms
 
   database:
     image: postgres
@@ -30,49 +43,43 @@ services:
     volumes:
       - ./postgres_data:/var/lib/postgresql/data
 
-
-
-
-
-
-
   portal-core:
-    image: deployment:5000/portal-core:build-${BUILD_NUMBER}
+    image: thebartthe/portal-core:build-${BUILD_NUMBER}
     build: ./qa-portal-angular
     depends_on:
       - keycloak
   cv-api:
-    image: deployment:5000/cv-api:build-${BUILD_NUMBER}
+    image: thebartthe/cv-api:build-${BUILD_NUMBER}
     build:
       context: ./qa-portal-services
       args: 
         - PROJECT=cv-api
   form-api:
-    image: deployment:5000/form-api:build-${BUILD_NUMBER}
+    image: thebartthe/form-api:build-${BUILD_NUMBER}
     build:
       context: ./qa-portal-services
       args: 
         - PROJECT=form-api
   self-reflection-api:
-    image: deployment:5000/self-reflection-api:build-${BUILD_NUMBER}
+    image: thebartthe/self-reflection-api:build-${BUILD_NUMBER}
     build:
       context: ./qa-portal-services
       args: 
         - PROJECT=self-reflection-api
   feedback-api:
-    image: deployment:5000/feedback-api:build-${BUILD_NUMBER}
+    image: thebartthe/feedback-api:build-${BUILD_NUMBER}
     build:
       context: ./qa-portal-services
       args: 
         - PROJECT=feedback-api
   cohort-api:
-    image: deployment:5000/cohort-api:build-${BUILD_NUMBER}
+    image: thebartthe/cohort-api:build-${BUILD_NUMBER}
     build:
       context: ./qa-portal-services
       args: 
         - PROJECT=cohort-api
   portal-application-api:
-    image: deployment:5000/portal-application-api:build-${BUILD_NUMBER}
+    image: thebartthe/portal-application-api:build-${BUILD_NUMBER}
     build:
       context: ./qa-portal-services
       args: 
