@@ -5,7 +5,7 @@ export function initializer(keycloak: KeycloakService): () => Promise<any> {
 
   const options: KeycloakOptions = {
     config: {
-      url: 'http://130.211.109.4/auth',
+      url: 'http://146.148.13.142/auth',
       realm: 'qa-portal',
       clientId: 'qa-portal-ui'
     },
