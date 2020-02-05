@@ -289,7 +289,7 @@ spec:
       volumes:
       - name: postgres
         persistentVolumeClaim:   
-          name: postgres
+          claimName: postgres
 ---
 apiVersion: v1
 kind: Service
@@ -344,7 +344,7 @@ spec:
       volumes:
       - name: mongo
         persistentVolumeClaim:   
-          name: mongo
+          claimName: mongo
 ---
 apiVersion: v1
 kind: Service
