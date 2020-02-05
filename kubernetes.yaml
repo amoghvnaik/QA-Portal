@@ -250,6 +250,18 @@ spec:
   type: ClusterIP
 ---
 
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: postgres
+spec:
+  accessModes:
+    - ReadWriteOnce
+  volumeMode: Filesystem
+  resources:
+    requests:
+      storage: 8Gi
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -271,6 +283,13 @@ spec:
         image: postgres
         ports:
         - containerPort: 5432
+              volumeMounts:
+        - mountPath: "var/lib/postgresql/data"
+          name: postgres
+      volumes:
+      - name: postgres
+        persistentVolumeClaim:   
+          name: postgres
 ---
 apiVersion: v1
 kind: Service
@@ -284,6 +303,18 @@ spec:
     port: 5432
     targetPort: 5432
   type: ClusterIP
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: mongo
+spec:
+  accessModes:
+    - ReadWriteOnce
+  volumeMode: Filesystem
+  resources:
+    requests:
+      storage: 8Gi
 ---
 
 apiVersion: apps/v1
@@ -307,6 +338,13 @@ spec:
         image: mongo
         ports:
         - containerPort: 27017
+        volumeMounts:
+        - mountPath: "/data/db"
+          name: mongo
+      volumes:
+      - name: mongo
+        persistentVolumeClaim:   
+          name: mongo
 ---
 apiVersion: v1
 kind: Service
@@ -339,9 +377,30 @@ spec:
     spec:
       containers:
       - name: keycloak
-        image: deployment:5000/keycloak:build-{{BUILD}}
+        image: jboss/keycloak:6.0.1
         ports:
         - containerPort: 8080
+        env:
+        - name: KEYCLOAK_USER
+          value: admin
+        - name: KEYCLOAK_PASSWORD
+          value: admin
+        - name: DB_DATABASE
+          value: qa-portal
+        - name: DB_USER
+          value: postgres
+        - name: DB_PASSWORD
+          value: postgres
+        - name: PROXY_ADDRESS_FORWARDING
+          value: true
+        command: -Dkeycloak.migration.action=import -Dkeycloak.migration.provider=dir -Dkeycloak.migration.dir=/opt/jboss/exported_realms -Dkeycloak.migration.strategy=OVERWRITE_EXISTING
+        volumeMounts:
+        - mountPath: "/opt/jboss/exported_realms"
+          name: volume
+      volumes:
+      - name: volume
+        persistentVolumeClaim:   
+          name: volume
 ---
 apiVersion: v1
 kind: Service
