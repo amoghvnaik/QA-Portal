@@ -466,11 +466,11 @@ spec:
         image: deployment:5000/keycloak:build-{{BUILD}}
         ports:
         - containerPort: 8080
-        #env:
-        #- name: KEYCLOAK_USER
-          #value: "admin"
-        #- name: KEYCLOAK_PASSWORD
-          #value: "admin"
+        env:
+        - name: KEYCLOAK_USER
+          value: "admin"
+        - name: KEYCLOAK_PASSWORD
+          value: "admin"
         #- name: DB_DATABASE
           #value: "qa-portal"
         #- name: DB_USER
