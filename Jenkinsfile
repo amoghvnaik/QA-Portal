@@ -1,21 +1,29 @@
 pipeline{
         agent any
         
-        stages{
-		stage('--building--'){
-			steps{
-				sh '''ssh deployment << EOF
-				      export BUILD_NUMBER=${BUILD_NUMBER}
-				      cd QA-Portal/qa-portal-services/
-                                      git pull
-				      git checkout week12-week3-frontend
+        stages{ 
+                stage('---Update Images---'){
+                        steps{
+                                sh '''export build="${BUILD_NUMBER}"
+				      git checkout deploy-stack
+				      docker system prune -af
 				      mvn clean install -DskipTests
-				      cd ..
-				      docker-compose build
+				      docker-compose up -d --build
+				      docker-compose down --volumes
 				      docker-compose push
-                                      sed "s/{{BUILD}}/${BUILD_NUMBER}/g" ./kubernetes.yaml | kubectl apply -f -
-				      '''
-			}
-		}
-        }
+                                      '''
+                        }
+                }
+                stage('---Update Containers---'){
+                        steps{
+                                sh '''ssh assassin-ansible-deploy << EOF
+				      export build="${BUILD_NUMBER}"
+				      git checkout deploy-stack
+				      docker system prune -f
+				      docker stack deploy --compose-file qa-portal/docker-compose.yaml qa-portal
+				      EOF
+                                      '''
+                        }
+                }
+	}
 }

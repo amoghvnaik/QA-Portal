@@ -1,0 +1,205 @@
+- hosts: localhost
+  connection: local
+  tasks:
+  - name: "generate key pair"
+    openssh_keypair:
+      path: ~/.ssh/ansible_id_rsa
+
+- hosts: all
+  become: yes
+  tasks:
+  - name: "prerequisites"
+    apt:
+      pkg:
+      - apt-transport-https
+      - ca-certificates
+      - curl
+      - gnupg2
+      - software-properties-common
+      state: latest
+      update_cache: yes
+  - name: "docker gpg key"
+    apt_key:
+      url: "https://download.docker.com/linux/debian/gpg"
+      state: present
+  - name: "docker apt repo"
+    apt_repository:
+      repo: "deb [arch=amd64] https://download.docker.com/linux/debian stretch stable"
+      state: present
+  - name: "install docker"
+    apt:
+      pkg:
+      - docker-ce
+      - docker-ce-cli
+      - containerd.io
+      state: latest
+      update_cache: yes
+  - name: "docker service start"
+    service:
+      name: docker
+      state: started
+  - name: "jenkins user"
+    user:
+      name: jenkins
+      shell: /bin/bash
+      groups: docker
+      append: yes
+  - name: "insecure registries"
+    copy:
+      src: ../resources/daemon.json
+      dest: /etc/docker/daemon.json
+  - name: "reload docker"
+    service:
+      name: docker
+      state: reloaded
+
+- hosts: jenkins
+  become: yes
+  tasks:
+  - name: "jenkins user"
+    user:
+      name: jenkins
+      shell: /bin/bash
+  - name: "install java"
+    apt:
+      name: openjdk-8-jdk
+      state: latest
+      update_cache: yes
+  - name: "jenkins gpg key"
+    apt_key:
+      url: "https://pkg.jenkins.io/debian/jenkins.io.key"
+      state: present
+  - name: "jenkins apt repo"
+    apt_repository:
+      repo: "deb http://pkg.jenkins.io/debian-stable binary/"
+      state: present
+  - name: "install jenkins"
+    apt:
+      name: jenkins
+      state: latest
+      update_cache: yes
+  - name: "jenkins service"
+    service:
+      name: jenkins
+      state: started
+  - name: "ssh folder"
+    file:
+      path: /home/jenkins/.ssh
+      state: directory
+      mode: "0700"
+      owner: jenkins
+      group: jenkins
+  - name: "install private key"
+    copy:
+      src: ~/.ssh/ansible_id_rsa
+      dest: /home/jenkins/.ssh/id_rsa
+      owner: jenkins
+      group: jenkins
+      mode: "0600"
+  - name: "install docker compose"
+    shell: |
+            curl -L "https://github.com/docker/compose/releases/download/1.24.0/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+            chmod +x /usr/local/bin/docker-compose
+
+- import_playbook: git-playbook.yaml
+
+- hosts: jenkins
+  become: yes
+  tasks:
+  - name: "install python pip"
+    apt:
+      name: python-pip
+      state: latest
+      update_cache: yes
+  - name: "docker sdk"
+    pip:
+      name: docker
+  - name: "docker registry container"
+    docker_container:
+      name: registry
+      image: registry
+      ports:
+      - "5000:5000"
+
+- hosts: swarm-master
+  become: yes
+  tasks:
+  - name: "ssh folder"
+    file:
+      path: /home/jenkins/.ssh
+      state: directory
+      mode: "0700"
+      owner: jenkins
+      group: jenkins
+  - name: "add public key"
+    copy:
+      src: ~/.ssh/ansible_id_rsa.pub
+      dest: /home/jenkins/.ssh/authorized_keys
+      owner: jenkins
+      group: jenkins
+      mode: "0600"
+  - name: "install python pip"
+    apt:
+      name: python-pip
+      state: present
+      update_cache: yes
+  - name: "docker sdk"
+    pip:
+      name: docker
+  - name: "initialise swarm"
+    docker_swarm:
+      state: present
+
+- name: "install docker compose"
+  hosts: all
+  become: yes
+  tasks:
+  - name: prerequisites
+    apt:
+      pkg:
+      - python3-pip
+      - python-pip
+      - git
+      state: latest
+      update_cache: yes
+  - name: "docker"
+    pip:
+      name: docker
+  - name: "json"
+    pip:
+      name: jsondiff
+  - name: "yaml"
+    pip:
+      name: pyyaml
+  - name: "install docker compose"
+    pip:
+      name: docker-compose
+  - name: "docker service"
+    service:
+      name: docker
+      state: started
+
+- name: "setup swarm"
+  hosts: swarm-master
+  become: yes
+  tasks:
+  - name: "git clone"
+    git:
+      repo: "https://github.com/amoghvnaik/QA-Portal"
+      dest: /home/jenkins/qa-portal
+  - name: "initialise swarm"
+    docker_swarm:
+      state: present
+
+- name: "setup jenkins"
+  hosts: jenkins
+  become: yes
+  tasks:
+  - name: "restart jenkins"
+    service:
+      name: jenkins
+      state: restarted
+  - name: "display jenkins password"
+    shell: |
+            echo "---Jenkins Password---"
+            cat /var/lib/jenkins/secrets/initialAdminPassword

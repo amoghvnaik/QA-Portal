@@ -1,11 +1,46 @@
 version: '3.7'
 services:
+  nginx:
+    image: nginx
+    ports:
+      - 80:80
+    volumes:
+      - type: bind
+        source: ./nginx/nginx.conf
+        target: /etc/nginx/nginx.conf
+    depends_on:
+      - portal-core
+      - database
+      - keycloak
+      - feedback-api
+      - self-reflection-api
+      - form-api
+      - cohort-api
+      - portal-application-api
   keycloak:
     image: deployment:5000/keycloak:build-${BUILD_NUMBER}
     build: ./qa-portal-infra
+
+
+  database:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - ./postgres_data:/var/lib/postgresql/data
+
+
+
+
+
+
+
   portal-core:
     image: deployment:5000/portal-core:build-${BUILD_NUMBER}
     build: ./qa-portal-angular
+    depends_on:
+      - keycloak
   cv-api:
     image: deployment:5000/cv-api:build-${BUILD_NUMBER}
     build:
