@@ -5,6 +5,7 @@ pipeline{
                 stage('---Update Images---'){
                         steps{
                                 sh '''export build="${BUILD_NUMBER}"
+					  cd ~/qa-portal
 				      git checkout deploy-stack
 				      git pull
 				      docker system prune -af
@@ -18,6 +19,7 @@ pipeline{
                 stage('---Update Containers---'){
                         steps{
                                 sh '''ssh assassin-ansible-deploy << EOF
+					  cd ~/qa-portal
 				      export build="${BUILD_NUMBER}"
 				      git checkout deploy-stack
 				      git pull
