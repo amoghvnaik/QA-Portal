@@ -57,7 +57,7 @@ data:
     	  proxy_set_header X-Real-IP $remote_addr;
     
         listen 80;
-  	    location / {
+        location / {
             proxy_pass http://portal-core:80;
         }
         
