@@ -393,7 +393,7 @@ spec:
           value: "postgres"
         - name: PROXY_ADDRESS_FORWARDING
           value: true
-        command: -Dkeycloak.migration.action=import -Dkeycloak.migration.provider=dir -Dkeycloak.migration.dir=/opt/jboss/exported_realms -Dkeycloak.migration.strategy=OVERWRITE_EXISTING
+        command: ["-Dkeycloak.migration.action=import -Dkeycloak.migration.provider=dir -Dkeycloak.migration.dir=/opt/jboss/exported_realms -Dkeycloak.migration.strategy=OVERWRITE_EXISTING"]
 
 ---
 apiVersion: v1
