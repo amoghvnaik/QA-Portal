@@ -1,52 +1,8 @@
 version: '3.7'
-volumes:
- db-data:
-   driver: local
- mongo-volume:
-   driver: local
-
 services:
   keycloak:
     image: deployment:5000/keycloak:build-${BUILD_NUMBER}
     build: ./qa-portal-infra
-    container_name: keycloak
-    depends_on:
-      - postgres
-    ports:
-      - 8080:8080
-  postgres:
-    image: postgres
-    environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
-      - POSTGRES_DB=qa-portal
-    volumes: 
-      - db-data:/var/lib/postgresql/data
-    ports:
-      - 5432:5432
-  mongo:
-    image: mongo
-    ports:
-      - "27017:27017"
-    volumes:
-    - ./mongo-volume:/data/db
-  nginx:
-    image: nginx
-    ports:
-      - 80:80
-    volumes:
-      - type: bind
-        source: ./nginx.conf
-        target: /etc/nginx/nginx.conf
-    depends_on:
-      - frontend
-      - postgres
-      - keycloak
-      - feedback-api
-      - self-reflection-api
-      - form-api
-      - cohort-api
-      - portal-application-api
   portal-core:
     image: deployment:5000/portal-core:build-${BUILD_NUMBER}
     build: ./qa-portal-angular
@@ -56,46 +12,33 @@ services:
       context: ./qa-portal-services
       args: 
         - PROJECT=cv-api
-    depends_on: 
-      - mongo 
-      - postgres
   form-api:
     image: deployment:5000/form-api:build-${BUILD_NUMBER}
     build:
       context: ./qa-portal-services
       args: 
         - PROJECT=form-api
-    depends_on: 
-      - postgres
   self-reflection-api:
     image: deployment:5000/self-reflection-api:build-${BUILD_NUMBER}
     build:
       context: ./qa-portal-services
       args: 
         - PROJECT=self-reflection-api
-    depends_on: 
-      - postgres
   feedback-api:
     image: deployment:5000/feedback-api:build-${BUILD_NUMBER}
     build:
       context: ./qa-portal-services
       args: 
         - PROJECT=feedback-api
-    depends_on: 
-      - postgres
   cohort-api:
     image: deployment:5000/cohort-api:build-${BUILD_NUMBER}
     build:
       context: ./qa-portal-services
       args: 
         - PROJECT=cohort-api
-    depends_on: 
-      - postgres
   portal-application-api:
     image: deployment:5000/portal-application-api:build-${BUILD_NUMBER}
     build:
       context: ./qa-portal-services
       args: 
         - PROJECT=portal-application-api
-    depends_on: 
-      - postgres
