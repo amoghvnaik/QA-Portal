@@ -1,5 +1,5 @@
 FROM jboss/keycloak:6.0.1
-WORKDIR /opt/jboss/keycloak/bin/exported_realms
+WORKDIR /opt/jboss/exported_realms
 COPY ./keycloak/exported_realms .
 #RUN . /opt/jboss/keycloak/bin/exported_realms/Setup.sh
 ENTRYPOINT [ "/opt/jboss/tools/docker-entrypoint.sh" ]
