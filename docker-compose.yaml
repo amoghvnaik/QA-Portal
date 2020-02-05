@@ -4,7 +4,9 @@ services:
   nginx:
     image: nginx
     ports:
-      - 80:80
+      - target: 80
+        published: 80
+        protocol: tcp
     volumes:
       - type: bind
         source: ./nginx/nginx.conf
@@ -13,14 +15,9 @@ services:
       - frontend
       - database
       - keycloak
-      - feedback-api
-      - self-reflection-api
-      - form-api
-      - cohort-api
-      - portal-application-api
 
   frontend:
-    image: vieran:latest
+    image: hafizpatwary/angular-frontend:build-${BUILD_NUMBER}
     build: ./qa-portal-angular
     depends_on:
       - keycloak
@@ -35,11 +32,6 @@ services:
     volumes:
       - ./postgres_data:/var/lib/postgresql/data
 
-  adminer:
-    image: adminer
-    restart: always
-    ports:
-      - 8090:8080
 
   keycloak:
     image: jboss/keycloak:6.0.1
@@ -57,33 +49,4 @@ services:
     - type: bind
       source: ./qa-portal-infra/keycloak/exported_realms
       target: /opt/jboss/exported_realms
-  feedback-api:
-    image: feedback-1:latest
-    build: ./qa-portal-services/feedback-api
-    ports:
-      - 8084:8084
-  
-  self-reflection-api:
-    image: self-reflection
-    build: ./qa-portal-services/self-reflection-api
-    ports: 
-      - 8082:8082
-
-  cohort-api:
-    image: cohort
-    build: ./qa-portal-services/cohort-api
-    ports:
-      - 8086:8086
-
-  form-api:
-    image: form
-    build: ./qa-portal-services/form-api
-    ports:
-      - 8085:8085
-  
-  portal-application-api:
-    image: portal-application
-    build: ./qa-portal-services/portal-application-api
-    ports:
-      - 8081:8081
 
