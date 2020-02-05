@@ -58,29 +58,30 @@ data:
 
   	    listen 80;
   	    location / {
-		    proxy_pass http://portal-core:80;
-	    }
+	    	proxy_pass http://portal-core:80;
+	}
+	    
   	    location /auth {
-		    proxy_pass http://keycloak:8080;
-    	    }
+		proxy_pass http://keycloak:8080;
+    	}
 
 		
   	    location /feedback-api {
-    		    proxy_pass http://feedback-api:8084;
-  	    }
+    		proxy_pass http://feedback-api:8084;
+  	}
  	    location /self-reflection-api {
-    		    proxy_pass http://self-reflection-api:8082;
-  	    }
+    		proxy_pass http://self-reflection-api:8082;
+  	}
   	    location /portal-application-api {
-    		    proxy_pass http://portal-application-api:8081;
-  	    }
+    		proxy_pass http://portal-application-api:8081;
+  	}
   	    location /form-api {
-    		    proxy_pass http://form-api:8085;
-  	    }	
+    		proxy_pass http://form-api:8085;
+  	}	
   	    location /cohort-api {
-    		    proxy_pass http://cohort-api:8086;
-  	    }
-	}
+    		proxy_pass http://cohort-api:8086;
+  	}
+    }
 ---
 apiVersion: apps/v1
 kind: Deployment
