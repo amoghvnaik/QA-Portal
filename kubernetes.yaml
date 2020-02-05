@@ -466,19 +466,19 @@ spec:
         image: deployment:5000/keycloak:build-{{BUILD}}
         ports:
         - containerPort: 8080
-        env:
-        - name: KEYCLOAK_USER
-          value: "admin"
-        - name: KEYCLOAK_PASSWORD
-          value: "admin"
-        - name: DB_DATABASE
-          value: "qa-portal"
-        - name: DB_USER
-          value: "postgres"
-        - name: DB_PASSWORD
-          value: "postgres"
-        - name: PROXY_ADDRESS_FORWARDING
-          value: "true"
+        #env:
+        #- name: KEYCLOAK_USER
+          #value: "admin"
+        #- name: KEYCLOAK_PASSWORD
+          #value: "admin"
+        #- name: DB_DATABASE
+          #value: "qa-portal"
+        #- name: DB_USER
+          #value: "postgres"
+        #- name: DB_PASSWORD
+          #value: "postgres"
+        #- name: PROXY_ADDRESS_FORWARDING
+          #value: "true"
         #command: ["-Dkeycloak.migration.action=import -Dkeycloak.migration.provider=dir -Dkeycloak.migration.dir=/opt/jboss/exported_realms -Dkeycloak.migration.strategy=OVERWRITE_EXISTING"]
 
 ---
