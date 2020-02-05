@@ -1,6 +1,90 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  name: nginx
+  labels: 
+    app: nginx
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: nginx
+        image: nginx
+        ports:
+        - containerPort: 80
+        volumeMounts:
+        - mountPath: "/etc/nginx/conf.d"
+          name: nginx
+      volumes:
+      - name: nginx
+        configMap:   
+          name: nginx
+         
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx
+spec:
+  selector:
+    app: nginx
+  ports: 
+  - protocol: TCP
+    port: 80
+    targetPort: 80
+  type: LoadBalancer
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nginx
+data:
+  default-conf: |
+    server {
+  		proxy_read_timeout  90;
+  		proxy_set_header X-Forwarded-Host $host:$server_port;
+    	proxy_set_header X-Forwarded-Server $host;
+    	proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    	proxy_set_header X-Forwarded-Proto $scheme;
+    	proxy_set_header X-Real-IP $remote_addr;
+
+  		listen 80;
+  		location / {
+			proxy_pass http://portal-core:80;
+		  }
+  		location /auth {
+			proxy_pass http://keycloak:8080;
+    	}
+
+		
+  		location /feedback-api {
+    			proxy_pass http://feedback-api:8084;
+  		}
+ 		 location /self-reflection-api {
+    			proxy_pass http://self-reflection-api:8082;
+  		}
+  		location /portal-application-api {
+    			proxy_pass http://portal-application-api:8081;
+  		}
+  		location /form-api {
+    			proxy_pass http://form-api:8085;
+  		}	
+  		location /cohort-api {
+    			proxy_pass http://cohort-api:8086;
+  		}
+	}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
   name: portal-core
   labels: 
     app: portal-core
@@ -31,7 +115,7 @@ spec:
   - protocol: TCP
     port: 80
     targetPort: 80
-  type: LoadBalancer
+  type: ClusterIP
 ---
 apiVersion: apps/v1
 kind: Deployment
