@@ -23,9 +23,8 @@ services:
         #    depends_on:
         #      - postgres
   keycloak:
-    image: deployment:5000/keycloak:build-${BUILD_NUMBER}
+    image: jboss/keycloak:6.0.1
     container_name: keycloak
-    build: ./qa-portal-infra
     depends_on:
       - postgres
     ports:
