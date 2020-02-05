@@ -6,22 +6,6 @@ volumes:
    driver: local
 
 services:
-        #  keycloak:
-        #    image: jboss/keycloak:latest
-        #    environment:
-        #      - KEYCLOAK_USER=admin
-        #      - KEYCLOAK_PASSWORD=admin
-        #      - KEYCLOAK_IMPORT=/tmp/realm.json
-        #      - DB_DATABASE=qa-portal
-        #      - DB_USER=postgres
-        #      - DB_PASSWORD=postgres
-        #      - PROXY_ADDRESS_FORWARDING=true
-        #    volumes:
-        #      - type: bind
-        #        source: ./qa-portal-infra/keycloak/qa-portal-realm.json
-        #        target: /tmp/realm.json
-        #    depends_on:
-        #      - postgres
   keycloak:
     image: deployment:5000/keycloak:build-${BUILD_NUMBER}
     build: ./qa-portal-infra
@@ -46,21 +30,26 @@ services:
       - "27017:27017"
     volumes:
     - ./mongo-volume:/data/db
+  nginx:
+    image: nginx
+    ports:
+      - 80:80
+    volumes:
+      - type: bind
+        source: ./nginx.conf
+        target: /etc/nginx/nginx.conf
+    depends_on:
+      - frontend
+      - database
+      - keycloak
+      - feedback-api
+      - self-reflection-api
+      - form-api
+      - cohort-api
+      - portal-application-api
   portal-core:
     image: deployment:5000/portal-core:build-${BUILD_NUMBER}
     build: ./qa-portal-angular
-    #    depends_on:
-            #      - keycloak
-            #      - core-api
-            #      - user-api
-            #      - self-reflection-api
-            #      - course-api
-            #      - cv-api
-        #      - feedback-api
-        #      - question-api
-           #   ports:
-        #      - target: 80
-        #        published: 80
   cv-api:
     image: deployment:5000/cv-api:build-${BUILD_NUMBER}
     build:
