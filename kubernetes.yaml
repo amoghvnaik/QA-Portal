@@ -341,7 +341,7 @@ spec:
       - name: keycloak
         image: keycloak
         ports:
-        - containerPort: 8070
+        - containerPort: 8080
 ---
 apiVersion: v1
 kind: Service
@@ -352,7 +352,7 @@ spec:
     app: keycloak
   ports: 
   - protocol: TCP
-    port: 8070
-    targetPort: 8070
+    port: 8080
+    targetPort: 8080
   type: ClusterIP
   
