@@ -488,11 +488,11 @@ spec:
         - name: DB_DATABASE
           value: "keycloak"
         - name: DB_VENDOR
-          value: POSTGRES
+          value: "POSTGRES"
         - name: DB_ADDR
-          value: postgres
+          value: "postgres"
         - name: DB_PORT
-          value: 5432
+          value: "5432"
         - name: DB_USER
           value: "postgres"
         - name: DB_PASSWORD
