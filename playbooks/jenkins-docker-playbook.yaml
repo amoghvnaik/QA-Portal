@@ -44,10 +44,6 @@
       shell: /bin/bash
       groups: docker
       append: yes
-  - name: "insecure registries"
-    copy:
-      src: ../resources/daemon.json
-      dest: /etc/docker/daemon.json
   - name: "reload docker"
     service:
       name: docker
