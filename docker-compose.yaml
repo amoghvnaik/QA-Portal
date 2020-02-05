@@ -40,7 +40,7 @@ services:
         target: /etc/nginx/nginx.conf
     depends_on:
       - frontend
-      - database
+      - postgres
       - keycloak
       - feedback-api
       - self-reflection-api
