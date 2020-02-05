@@ -445,6 +445,17 @@ spec:
     targetPort: 27017
   type: ClusterIP
 ---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: keycloak
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 8Gi
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -477,10 +488,16 @@ spec:
           value: "postgres"
         - name: DB_PASSWORD
           value: "postgres"
-        #- name: PROXY_ADDRESS_FORWARDING
-          #value: "true"
-        #command: ["-Dkeycloak.migration.action=import -Dkeycloak.migration.provider=dir -Dkeycloak.migration.dir=/opt/jboss/exported_realms -Dkeycloak.migration.strategy=OVERWRITE_EXISTING"]
-
+        - name: PROXY_ADDRESS_FORWARDING
+          value: "true"
+        command: ["-Dkeycloak.migration.action=import -Dkeycloak.migration.provider=dir -Dkeycloak.migration.dir=/opt/jboss/exported_realms -Dkeycloak.migration.strategy=OVERWRITE_EXISTING"]
+        volumeMounts:
+        - mountPath: "/opt/jboss/exported_realms"
+          name: keycloak
+      volumes:
+      - name: keycloak
+        persistentVolumeClaim:   
+          claimName: keycloak
 ---
 apiVersion: v1
 kind: Service
