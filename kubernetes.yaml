@@ -48,6 +48,8 @@ metadata:
   name: nginx
 data:
   default-conf: |
+    events{}
+    http {
     server {
         proxy_read_timeout  90;
         proxy_set_header X-Forwarded-Host $host:$server_port;
@@ -81,6 +83,7 @@ data:
         location /cohort-api {
             proxy_pass http://cohort-api:8086;
         }
+    }
     }
 ---
 apiVersion: apps/v1
