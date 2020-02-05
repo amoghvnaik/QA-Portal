@@ -9,6 +9,15 @@ services:
       - type: bind
         source: ./nginx/nginx.conf
         target: /etc/nginx/nginx.conf
+    depends_on:
+      - frontend
+      - database
+      - keycloak
+      - feedback-api
+      - self-reflection-api
+      - form-api
+      - cohort-api
+      - portal-application-api
 
   frontend:
     image: vieran:latest
