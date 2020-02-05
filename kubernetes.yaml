@@ -250,16 +250,16 @@ spec:
   type: ClusterIP
 ---
 
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: postgres
-spec:
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: 8Gi
+#apiVersion: v1
+#kind: PersistentVolumeClaim
+#metadata:
+  #name: postgres
+#spec:
+  #accessModes:
+    #- ReadWriteOnce
+  #resources:
+    #requests:
+      #storage: 8Gi
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -282,13 +282,13 @@ spec:
         image: postgres
         ports:
         - containerPort: 5432
-        volumeMounts:
-        - mountPath: "var/lib/postgresql/data"
-          name: postgres
-      volumes:
-      - name: postgres
-        persistentVolumeClaim:   
-          claimName: postgres
+        #volumeMounts:
+        #- mountPath: "var/lib/postgresql/data"
+          #name: postgres
+      #volumes:
+      #- name: postgres
+        #persistentVolumeClaim:   
+          #claimName: postgres
 ---
 apiVersion: v1
 kind: Service
