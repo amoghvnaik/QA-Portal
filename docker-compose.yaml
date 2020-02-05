@@ -23,7 +23,7 @@ services:
         #    depends_on:
         #      - postgres
   keycloak:
-    image: deployment:5000/portal-core:build-${BUILD_NUMBER}
+    image: deployment:5000/keycloak:build-${BUILD_NUMBER}
     build: ./qa-portal-infra
     container_name: keycloak
     depends_on:
