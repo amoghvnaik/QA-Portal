@@ -17,7 +17,7 @@ spring:
       database: qa-portal-cv
 
   datasource:
-    url: jdbc:postgresql://localhost:5432/qa-portal
+    url: jdbc:postgresql://postgres:5432/qa-portal
     username: postgres
     password: postgres
 

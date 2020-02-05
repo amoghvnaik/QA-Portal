@@ -57,3 +57,4 @@ node_modules
 
 **/.DS_Store
 mongo-volume/
+postgres_data
